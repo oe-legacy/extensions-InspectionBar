@@ -1,0 +1,3 @@
+# dist file for InspectionBar
+darcs      /extensions/InspectionBar            http://openengine.dk/code/extensions/InspectionBar
+darcs-dev  /extensions/InspectionBar            fh.daimi.au.dk:/users/cgd/code/extensions/InspectionBar
