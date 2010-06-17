@@ -68,6 +68,9 @@ void InspectionBar::AddFields(AntTweakBar& m) {
             if (fv->properties.count(MIN)) {
                 opts = opts +  string(" min=") + Convert::ToString( fv->properties[MIN]);
             }
+            if (fv->properties.count(MAX)) {
+                opts = opts +  string(" max=") + Convert::ToString( fv->properties[MAX]);
+            }
             if (fv->properties.count(STEP)) {
                 opts = opts +  string(" step=") + Convert::ToString( fv->properties[STEP]);
             }
