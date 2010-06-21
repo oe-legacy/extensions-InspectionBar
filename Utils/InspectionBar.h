@@ -73,6 +73,9 @@ private:
     void SetVector3f(const void *value, RWValue<Vector<3,float> >* rwv);
     void GetFloat(void *value, RWValue<float>* rwv);
     void SetFloat(const void *value, RWValue<float>* rwv);
+    void GetBool(void *value, RWValue<bool>* rwv);
+    void SetBool(const void *value, RWValue<bool>* rwv);
+    
     
 public:
     InspectionBar(string title, ValueList vl);

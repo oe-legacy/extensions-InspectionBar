@@ -81,7 +81,20 @@ void InspectionBar::AddFields(AntTweakBar& m) {
                        &InspectionBar::AntGetCallback,
                        cb,
                        opts.c_str());
-
+        } else if (RWValue<bool> *bv = dynamic_cast<RWValue<bool>*>(val)) {
+            Callback<RWValue<bool> > *cb
+                = new Callback<RWValue<bool> >(*this,
+                                               &InspectionBar::GetBool,
+                                               &InspectionBar::SetBool,
+                                               bv);
+            string opts = "";
+            TwAddVarCB(twBar,
+                       bv->name.c_str(),
+                       TW_TYPE_BOOLCPP,
+                       &InspectionBar::AntSetCallback,
+                       &InspectionBar::AntGetCallback,
+                       cb,
+                       opts.c_str());
         } else {
 
             string* hesten = new string("hesten"); 
@@ -133,6 +146,16 @@ void InspectionBar::GetFloat(void *value, RWValue<float> *rwv) {
 
 void InspectionBar::SetFloat(const void *value, RWValue<float> *rwv) {
     float *val = (float*)value;
+    rwv->Set(val[0]);
+}
+
+void InspectionBar::GetBool(void *value, RWValue<bool> *rwv) {
+    bool *val = (bool*)value;
+    val[0] = rwv->Get();
+}
+
+void InspectionBar::SetBool(const void *value, RWValue<bool> *rwv) {
+    bool *val = (bool*)value;
     rwv->Set(val[0]);
 }
 
