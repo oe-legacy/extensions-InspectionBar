@@ -69,10 +69,16 @@ private:
     ValueList values;
     void GetQuaternion(void *value, RWValue<Quaternion<float> >* rwv);
     void SetQuaternion(const void *value, RWValue<Quaternion<float> >* rwv);
+
     void GetVector3f(void *value, RWValue<Vector<3,float> >* rwv);
     void SetVector3f(const void *value, RWValue<Vector<3,float> >* rwv);
+
+    void GetVector4f(void *value, RWValue<Vector<4,float> >* rwv);
+    void SetVector4f(const void *value, RWValue<Vector<4,float> >* rwv);
+
     void GetFloat(void *value, RWValue<float>* rwv);
     void SetFloat(const void *value, RWValue<float>* rwv);
+
     void GetBool(void *value, RWValue<bool>* rwv);
     void SetBool(const void *value, RWValue<bool>* rwv);
     

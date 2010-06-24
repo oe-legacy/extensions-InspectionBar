@@ -58,6 +58,22 @@ void InspectionBar::AddFields(AntTweakBar& m) {
                        "");
 
             
+        } else if (RWValue<Vector<4,float> > *vv = dynamic_cast<RWValue<Vector<4,float> >* > (val)) {
+
+            Callback<RWValue<Vector<4,float> > > *cb
+                = new Callback<RWValue<Vector<4, float> > >(*this,
+                                                            &InspectionBar::GetVector4f,
+                                                            &InspectionBar::SetVector4f,
+                                                            vv);
+
+
+            TwAddVarCB(twBar, 
+                       vv->name.c_str(),
+                       vv->isColor?TW_TYPE_COLOR4F:m.antVec4fType,
+                       &InspectionBar::AntSetCallback,
+                       &InspectionBar::AntGetCallback,
+                       cb,
+                       "");            
         } else if (RWValue<float> *fv = dynamic_cast<RWValue<float> *>(val)) {
             Callback<RWValue<float> > *cb
                 = new Callback<RWValue<float> >(*this,
@@ -136,6 +152,24 @@ void InspectionBar::SetVector3f(const void *value, RWValue<Vector<3,float> > *rw
     v[0] = val->x;
     v[1] = val->y;
     v[2] = val->z;
+    rwv->Set(v);
+}
+void InspectionBar::GetVector4f(void *value, RWValue<Vector<4,float> > *rwv) {
+    Vector<4,float> v = rwv->Get();
+    AntTweakBar::antVec4f *val = (AntTweakBar::antVec4f*)value;
+    val->x = v[0];
+    val->y = v[1];
+    val->z = v[2];
+    val->w = v[3];
+}
+
+void InspectionBar::SetVector4f(const void *value, RWValue<Vector<4,float> > *rwv) {
+    Vector<4,float> v;
+    AntTweakBar::antVec4f *val = (AntTweakBar::antVec4f*)value;
+    v[0] = val->x;
+    v[1] = val->y;
+    v[2] = val->z;
+    v[3] = val->w;
     rwv->Set(v);
 }
 
