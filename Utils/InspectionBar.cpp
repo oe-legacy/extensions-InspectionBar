@@ -97,6 +97,29 @@ void InspectionBar::AddFields(AntTweakBar& m) {
                        &InspectionBar::AntGetCallback,
                        cb,
                        opts.c_str());
+        } else if (RWValue<unsigned int> *iv = dynamic_cast<RWValue<unsigned int> *>(val)) {
+            Callback<RWValue<unsigned int> > *cb
+                = new Callback<RWValue<unsigned int> >(*this,
+                                                       &InspectionBar::GetUInt,
+                                                       &InspectionBar::SetUInt,
+                                                       iv);
+            string opts = "";
+            if (iv->properties.count(MIN)) {
+                opts = opts +  string(" min=") + Convert::ToString( iv->properties[MIN]);
+            }
+            if (iv->properties.count(MAX)) {
+                opts = opts +  string(" max=") + Convert::ToString( iv->properties[MAX]);
+            }
+            if (iv->properties.count(STEP)) {
+                opts = opts +  string(" step=") + Convert::ToString( iv->properties[STEP]);
+            }
+            TwAddVarCB(twBar, 
+                       iv->name.c_str(),
+                       TW_TYPE_UINT32,
+                       &InspectionBar::AntSetCallback,
+                       &InspectionBar::AntGetCallback,
+                       cb,
+                       opts.c_str());
         } else if (RWValue<bool> *bv = dynamic_cast<RWValue<bool>*>(val)) {
             Callback<RWValue<bool> > *cb
                 = new Callback<RWValue<bool> >(*this,
@@ -172,27 +195,6 @@ void InspectionBar::SetVector4f(const void *value, RWValue<Vector<4,float> > *rw
     v[3] = val->w;
     rwv->Set(v);
 }
-
-void InspectionBar::GetFloat(void *value, RWValue<float> *rwv) {
-    float *val = (float*)value;
-    val[0] = rwv->Get();
-}
-
-void InspectionBar::SetFloat(const void *value, RWValue<float> *rwv) {
-    float *val = (float*)value;
-    rwv->Set(val[0]);
-}
-
-void InspectionBar::GetBool(void *value, RWValue<bool> *rwv) {
-    bool *val = (bool*)value;
-    val[0] = rwv->Get();
-}
-
-void InspectionBar::SetBool(const void *value, RWValue<bool> *rwv) {
-    bool *val = (bool*)value;
-    rwv->Set(val[0]);
-}
-
 
 void TW_CALL InspectionBar::AntSetCallback(const void *value, void *clientdata) {
     ICallback* cb = (ICallback*)clientdata;

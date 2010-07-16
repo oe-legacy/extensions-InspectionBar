@@ -76,11 +76,30 @@ private:
     void GetVector4f(void *value, RWValue<Vector<4,float> >* rwv);
     void SetVector4f(const void *value, RWValue<Vector<4,float> >* rwv);
 
-    void GetFloat(void *value, RWValue<float>* rwv);
-    void SetFloat(const void *value, RWValue<float>* rwv);
+#define INSPECTIONBAR_GETSET(_type, _name)                        \
+    void Get##_name (void *value, RWValue<_type>* rwv) {          \
+    _type *val = (_type*)value;                                   \
+    val[0] = rwv->Get();                                          \
+    }                                                             \
+    void Set##_name(const void *value, RWValue<_type>* rwv) {     \
+    _type *val = (_type*)value;                                   \
+    rwv->Set(val[0]);                                             \
+    }                                                             \
 
-    void GetBool(void *value, RWValue<bool>* rwv);
-    void SetBool(const void *value, RWValue<bool>* rwv);
+
+    INSPECTIONBAR_GETSET(unsigned int, UInt) 
+    INSPECTIONBAR_GETSET(bool, Bool) 
+    INSPECTIONBAR_GETSET(float, Float) 
+
+    // void GetUInt(void *value, RWValue<unsigned int>* rwv) {
+    //     unsigned int *val = (unsigned int*)value;
+    //     val[0] = rwv->Get();
+        
+    // }
+    // void SetUInt(const void *value, RWValue<unsigned int>* rwv) {
+    //     unsigned int *val = (unsigned int*)value;
+    //     rwv->Set(val[0]);
+    // }
     
     
 public:
