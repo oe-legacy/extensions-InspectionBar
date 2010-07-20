@@ -4,6 +4,8 @@
 #include <Display/AntTweakBar.h>
 #include <Utils/Convert.h>
 
+
+
 namespace OpenEngine {
     namespace Utils {
 using namespace OpenEngine::Display;
@@ -18,7 +20,7 @@ InspectionBar::InspectionBar(string title, ValueList vl)
 void InspectionBar::AddFields(AntTweakBar& m) {
     TwBar* twBar = GetBar();
     int val = 1;
-    TwSetParam(twBar, NULL, "iconified", TW_PARAM_INT32, 1,  &val);
+
 
     for (ValueList::iterator itr = values.begin();
          itr != values.end();
