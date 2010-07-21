@@ -19,8 +19,6 @@ InspectionBar::InspectionBar(string title, ValueList vl)
 
 void InspectionBar::AddFields(AntTweakBar& m) {
     TwBar* twBar = GetBar();
-    int val = 1;
-
 
     for (ValueList::iterator itr = values.begin();
          itr != values.end();
