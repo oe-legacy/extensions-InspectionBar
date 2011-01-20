@@ -134,9 +134,27 @@ void InspectionBar::AddFields(AntTweakBar& m) {
                        &InspectionBar::AntGetCallback,
                        cb,
                        opts.c_str());
+        } else if (RWValue<string> *sv = dynamic_cast<RWValue<string>*>(val)) {
+            Callback<RWValue<string> > *cb
+                = new Callback<RWValue<string> >(*this,
+                                                 &InspectionBar::GetString,
+                                                 &InspectionBar::SetString,
+                                                 sv);
+            string opts = "";
+            TwAddVarCB(twBar,
+                       sv->name.c_str(),
+                       TW_TYPE_STDSTRING,
+                       &InspectionBar::AntSetCallback,
+                       &InspectionBar::AntGetCallback,
+                       cb,
+                       opts.c_str());
+
+
+        } else if (ActionValue *av = dynamic_cast<ActionValue*>(val)) {            
+            TwAddButton(twBar, val->name.c_str(), &InspectionBar::AntButtonCallback,av,"");
         } else {
 
-            string* hesten = new string("hesten"); 
+            string* hesten = new string("Unknown value"); 
             TwAddVarRO(twBar, val->name.c_str(), TW_TYPE_STDSTRING, hesten, "");
         }
     }
@@ -203,6 +221,10 @@ void TW_CALL InspectionBar::AntSetCallback(const void *value, void *clientdata) 
 void TW_CALL InspectionBar::AntGetCallback(void *value, void *clientdata) {
     ICallback* cb = (ICallback*)clientdata;
     cb->Get(value);
+}
+void TW_CALL InspectionBar::AntButtonCallback(void *clientdata) {
+    ActionValue *av = (ActionValue*)clientdata;
+    av->Call();
 }
 
     }

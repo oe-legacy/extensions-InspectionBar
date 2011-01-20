@@ -79,17 +79,31 @@ private:
 #define INSPECTIONBAR_GETSET(_type, _name)                        \
     void Get##_name (void *value, RWValue<_type>* rwv) {          \
     _type *val = (_type*)value;                                   \
-    val[0] = rwv->Get();                                          \
+    *(val) = rwv->Get();                                          \
     }                                                             \
     void Set##_name(const void *value, RWValue<_type>* rwv) {     \
     _type *val = (_type*)value;                                   \
-    rwv->Set(val[0]);                                             \
+    rwv->Set(*val);                                               \
     }                                                             \
 
 
     INSPECTIONBAR_GETSET(unsigned int, UInt) 
     INSPECTIONBAR_GETSET(bool, Bool) 
-    INSPECTIONBAR_GETSET(float, Float) 
+    INSPECTIONBAR_GETSET(float, Float)
+
+    void SetString(const void *value, RWValue<string>* rwv) {
+        const std::string *srcPtr = static_cast<const std::string *>(value);
+        rwv->Set(*srcPtr);
+
+    }
+
+    void GetString(void *value, RWValue<string>* rwv) {
+        std::string *destPtr = static_cast<std::string *>(value);
+        TwCopyStdStringToLibrary(*destPtr, rwv->Get()); 
+        // the use of TwCopyStdStringToLibrary is required here
+
+    }
+
 
     // void GetUInt(void *value, RWValue<unsigned int>* rwv) {
     //     unsigned int *val = (unsigned int*)value;
@@ -108,6 +122,7 @@ public:
     void AddFields(AntTweakBar& m);
     static void TW_CALL AntSetCallback(const void *value, void *clientdata);
     static void TW_CALL AntGetCallback(void *value, void *clientdata);
+    static void TW_CALL AntButtonCallback(void *clientdata);
 };
 
     }
