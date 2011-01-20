@@ -25,8 +25,45 @@ void InspectionBar::AddFields(AntTweakBar& m) {
          itr++) {
 
         IValue* val = *itr;
-               
-        if (RWValue<Quaternion<float> > *qv = dynamic_cast<RWValue<Quaternion<float> >* >(val)) {
+        
+    if (EnumValue* ev = dynamic_cast<EnumValue*>(val)) {
+            int size = ev->GetSize();            
+            map<string,int> enums = ev->GetEnumMap();
+            TwEnumVal* evals = new TwEnumVal[size];
+            int i=0;
+            for (map<string,int>::iterator itr = enums.begin();
+                 itr != enums.end();
+                 itr++) {
+                evals[i].Label = itr->first.c_str();
+                evals[i].Value = itr->second;
+                
+                
+                ++i;
+            }
+            
+            TwType et = TwDefineEnum(ev->GetEnumName().c_str(),
+                                     evals,
+                                     size);
+
+            string opts = "";
+            Callback<RWValue<unsigned int> > *cb
+                = new Callback<RWValue<unsigned int> >(*this,
+                                                       &InspectionBar::GetUInt,
+                                                       &InspectionBar::SetUInt,
+                                                       ev);
+            
+            
+            
+            TwAddVarCB(twBar,
+                       ev->name.c_str(),
+                       et,
+                       &InspectionBar::AntSetCallback,
+                       &InspectionBar::AntGetCallback,
+                       cb,
+                       opts.c_str());
+            
+            
+    } else if (RWValue<Quaternion<float> > *qv = dynamic_cast<RWValue<Quaternion<float> >* >(val)) {
             Callback<RWValue<Quaternion<float> > > *cb
                 = new Callback<RWValue<Quaternion<float> > >(*this,
                                                                 &InspectionBar::GetQuaternion,
@@ -148,8 +185,6 @@ void InspectionBar::AddFields(AntTweakBar& m) {
                        &InspectionBar::AntGetCallback,
                        cb,
                        opts.c_str());
-
-
         } else if (ActionValue *av = dynamic_cast<ActionValue*>(val)) {            
             TwAddButton(twBar, val->name.c_str(), &InspectionBar::AntButtonCallback,av,"");
         } else {
