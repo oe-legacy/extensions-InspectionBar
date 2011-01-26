@@ -17,7 +17,7 @@ InspectionBar::InspectionBar(string title, ValueList vl)
     
 }
 
-void InspectionBar::AddFields(AntTweakBar& m) {
+void InspectionBar::AddFields(AntTweakBar* m) {
     TwBar* twBar = GetBar();
 
     for (ValueList::iterator itr = values.begin();
@@ -88,7 +88,7 @@ void InspectionBar::AddFields(AntTweakBar& m) {
 
             TwAddVarCB(twBar, 
                        vv->name.c_str(),
-                       vv->isColor?TW_TYPE_COLOR3F:m.antVec3fType,
+                       vv->isColor?TW_TYPE_COLOR3F:m->antVec3fType,
                        &InspectionBar::AntSetCallback,
                        &InspectionBar::AntGetCallback,
                        cb,
@@ -106,7 +106,7 @@ void InspectionBar::AddFields(AntTweakBar& m) {
 
             TwAddVarCB(twBar, 
                        vv->name.c_str(),
-                       vv->isColor?TW_TYPE_COLOR4F:m.antVec4fType,
+                       vv->isColor?TW_TYPE_COLOR4F:m->antVec4fType,
                        &InspectionBar::AntSetCallback,
                        &InspectionBar::AntGetCallback,
                        cb,

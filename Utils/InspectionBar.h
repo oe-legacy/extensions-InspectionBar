@@ -119,7 +119,7 @@ private:
 public:
     InspectionBar(string title, ValueList vl);
 
-    void AddFields(AntTweakBar& m);
+    void AddFields(AntTweakBar* m);
     static void TW_CALL AntSetCallback(const void *value, void *clientdata);
     static void TW_CALL AntGetCallback(void *value, void *clientdata);
     static void TW_CALL AntButtonCallback(void *clientdata);
